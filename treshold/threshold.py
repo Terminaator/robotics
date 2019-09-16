@@ -22,7 +22,7 @@ cv2.createTrackbar("U - H - 2", "Trackbars", 179, 179, nothing)
 cv2.createTrackbar("U - S - 2", "Trackbars", 255, 255, nothing)
 cv2.createTrackbar("U - V - 2", "Trackbars", 255, 255, nothing)
 while True:
-    __, frame = cap.read()
+    _, frame = cap.read()
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     l_h = cv2.getTrackbarPos("L - H", "Trackbars")
     l_s = cv2.getTrackbarPos("L - S", "Trackbars")
