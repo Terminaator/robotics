@@ -11,7 +11,7 @@ class Camera:
 
     def read(self):
         _, self.frame = self.cap.read()
-        _, frame = cv2.imencode('.jpg', self.mask(self.frame))
+        _, frame = cv2.imencode('.jpg', self.frame)
         data = pickle.dumps(frame, 0)
         size = len(data)
         return struct.pack(">L", size) + data
