@@ -10,7 +10,7 @@ class Camera:
         self.pipeline_1 = rs.pipeline()
         self.config_1 = rs.config()
         self.config_1.enable_device('801212070130')
-        self.config_1.enable_stream(rs.stream.depth, 1280, 720, rs.format.z16, 15)
+        self.config_1.enable_stream(rs.stream.depth, 600, 600, rs.format.z16, 30)
         self.config_1.enable_stream(rs.stream.color, 600, 600, rs.format.rgb8, 30)
         self.frame = None
         self.pipeline_1.start(self.config_1)
