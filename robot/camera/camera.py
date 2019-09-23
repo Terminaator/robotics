@@ -20,5 +20,5 @@ class Camera:
         color_image_1 = np.asanyarray(color_frame_1.get_data())
         _, frame = cv2.imencode('.jpg', color_image_1)
         data = pickle.dumps(frame, 0)
-        size = len(data)
+        size = len(data) s
         return struct.pack(">L", size) + data
