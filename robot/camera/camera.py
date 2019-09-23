@@ -10,8 +10,8 @@ class Camera:
         self.pipeline_1 = rs.pipeline()
         self.config_1 = rs.config()
         self.config_1.enable_device('801212070130')
-        self.config_1.enable_stream(rs.stream.depth, 600, 600, rs.format.z16, 30)
-        self.config_1.enable_stream(rs.stream.color, 600, 600, rs.format.rgb8, 30)
+        self.config_1.enable_stream(rs.stream.depth, 600, 600, rs.format.z16, 15)
+        self.config_1.enable_stream(rs.stream.color, 600, 600, rs.format.rgb8, 15)
         self.frame = None
         self.pipeline_1.start(self.config_1)
 
@@ -29,8 +29,15 @@ class Camera:
         mask = cv2.dilate(mask, None, iterations=2)
 
         return mask
-
 came = Camera()
+ctx = rs.context()
+if len(ctx.devices) > 0:
+    for d in ctx.devices:
+        print ('Found device: ',
+        d.get_info(rs.camera_info.name), ' ',
+        d.get_info(rs.camera_info.serial_number))
+else:
+    print("No Intel Device connected")
 while True:
     cv2.imshow('frame',came.read())
     if cv2.waitKey(1) & 0xFF == ord('q'):
