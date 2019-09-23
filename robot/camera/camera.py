@@ -28,6 +28,10 @@ class Camera:
         mask = cv2.erode(mask, None, iterations=2)
         mask = cv2.dilate(mask, None, iterations=2)
 
-        data = pickle.dumps(mask, 0)
-        size = len(data)
-        return struct.pack(">L", size) + data
+        return mask
+
+came = Camera()
+while True:
+    cv2.imshow('frame',came.read())
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
