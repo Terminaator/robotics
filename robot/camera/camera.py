@@ -2,22 +2,23 @@ import pickle
 import struct
 import cv2
 import numpy as np
-
+import pyrealsense2 as rs
 
 class Camera:
     def __init__(self):
-        self.cap = cv2.VideoCapture(0)
+        self.pipeline_1 = rs.pipeline()
+        self.config_1 = rs.config()
+        self.config_1.enable_device('801212070130')
+        self.config_1.enable_stream(rs.stream.depth, 1280, 720, rs.format.z16, 15)
+        self.config_1.enable_stream(rs.stream.color, 1280, 720, rs.format.rgb8, 15)
         self.frame = None
+        self.pipeline_1.start(self.config_1)
 
     def read(self):
-        _, self.frame = self.cap.read()
-        _, frame = cv2.imencode('.jpg', self.frame)
+        frames_1 = self.pipeline_1.wait_for_frames()
+        color_frame_1 = frames_1.get_color_frame()
+        color_image_1 = np.asanyarray(color_frame_1.get_data())
+        _, frame = cv2.imencode('.jpg', color_image_1)
         data = pickle.dumps(frame, 0)
         size = len(data)
         return struct.pack(">L", size) + data
-
-    def mask(self, frame):
-        img = np.flip(frame, axis=1)
-        hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-        return cv2.inRange(hsv, np.array([0, 120, 70]), np.array([10, 255, 255])) + cv2.inRange(hsv, np.array(
-            [170, 120, 70]), np.array([180, 255, 255]))
